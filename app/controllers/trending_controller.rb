@@ -15,35 +15,34 @@ class TrendingController < ApplicationController
 			a = JSON.load(open(status_url(:id => i)))
 			if a["status"] == true
 				a["result"].each do |p|
-					id = p["problemUrl"]
-					raise id.to_s.inspect
+					id = p["problem_url"]
 					problem[id] ||= p["problem"]
 					handle[id] ||= []
 					handle[id] << p["user_url"]
 					time[id] ||= []
 					mem[id] ||= []
 					lang[id] ||= []
+					ac[id] ||= 0
+					ce[id] ||= 0
+					tle[id] ||= 0
+					wa[id] ||= 0
+					re[id] ||= 0
 					if p["result"].downcase.include? "accepted"
-						ac[id] ||= 0
 						ac[id] += 1
 						time[id] << p["time"]
 						mem[id] << p["mem"]	
 						lang[id] << p["lang"]
 					end
 					if p["result"].downcase.include? "compil"
-						ce[id] ||= 0
 						ce[id] += 1
 					end
 					if p["result"].downcase.include? "time"
-						tle[id] ||= 0
 						tle[id] += 1
 					end
 					if p["result"].downcase.include? "wrong"
-						wa[id] ||= 0
 						wa[id] += 1
 					end
 					if p["result"].downcase.include? "runtime"
-						re[id] ||= 0
 						re[id] += 1
 					end
 				end	
@@ -54,6 +53,7 @@ class TrendingController < ApplicationController
 		res = []
 		problem.each do |url, problem|
 			t = {}
+			t[:url] = url
 			t[:problem] = problem
 			t[:ac] = ac[url]
 			t[:tle] = tle[url]
@@ -63,6 +63,7 @@ class TrendingController < ApplicationController
 			t[:handle] = handle[url]
 			t[:time] = time[url]
 			t[:mem] = mem[url]
+			t[:lang] = lang[url]
 			res << t
 		end		
 		response[:result] = res
