@@ -17,7 +17,10 @@ class StatusController < ApplicationController
 				t = {}
 				t[:id] = id.text rescue nil
 				t[:date] = date.text rescue nil
+				t[:user] = user.text rescue nil
+				t[:user_url] = user.css("a").first.attr("href") rescue nil
 				t[:problem] = problem.text rescue nil
+				t[:problem_url] = problem.css("a").first.attr("href") rescue nil
 				t[:result] = result.text rescue nil
 				t[:time] = time.text rescue nil
 				t[:mem] = mem.text rescue nil
