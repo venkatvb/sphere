@@ -11,7 +11,7 @@ class TrendingController < ApplicationController
 		re = {}
 		tle = {}
 		ce = {}
-		(1..1).each do |i|
+		(1..5).each do |i|
 			a = JSON.load(open(status_url(:id => i)))
 			if a["status"] == true
 				a["result"].each do |p|
