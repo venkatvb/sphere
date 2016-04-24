@@ -11,6 +11,7 @@ class TrendingController < ApplicationController
 		re = {}
 		tle = {}
 		ce = {}
+		count = {}
 		(1..5).each do |i|
 			a = JSON.load(open(status_url(:id => i)))
 			if a["status"] == true
@@ -27,6 +28,8 @@ class TrendingController < ApplicationController
 					tle[id] ||= 0
 					wa[id] ||= 0
 					re[id] ||= 0
+					count[id] ||= 0
+					count[id] += 1
 					if p["result"].downcase.include? "accepted"
 						ac[id] += 1
 						time[id] << p["time"]
@@ -64,6 +67,7 @@ class TrendingController < ApplicationController
 			t[:time] = time[url]
 			t[:mem] = mem[url]
 			t[:lang] = lang[url]
+			t[:count] = count[url]
 			res << t
 		end		
 		response[:result] = res
