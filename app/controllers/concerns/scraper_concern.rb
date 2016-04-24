@@ -2,12 +2,7 @@ module ScraperConcern
 	extend ActiveSupport::Concern
 
 	included do
-		helper_method :mymethod
 		helper_method :getNokogiriDoc
-	end
-
-	def mymethod
-		return 5
 	end
 
 	def getNokogiriDoc (url)
